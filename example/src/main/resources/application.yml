@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: "example"
+
+tracein:
+  tracer:
+    name: "example"
+
+example:
+  api:
+    url: "http://echo.jsontest.com"
+
+logging:
+  level:
+    com:
+      example:
+        openfeign: DEBUG
+
+
