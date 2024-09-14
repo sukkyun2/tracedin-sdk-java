@@ -8,29 +8,43 @@
         <version>3.3.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>io.tracein</groupId>
-    <artifactId>tracein-sdk</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>tracein-sdk</name>
-    <description>Trace Application SDK for Java</description>
-    <url/>
+    <groupId>io.github.tracedin</groupId>
+    <artifactId>tracedin-sdk</artifactId>
+    <version>0.0.2</version>
+
+    <name>tracedin-sdk</name>
+    <description>Tracedin Application SDK for Java</description>
+    <url>https://tracedin.github.io</url>
+
     <licenses>
-        <license/>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/license/MIT</url>
+        </license>
     </licenses>
+
     <developers>
-        <developer/>
+        <developer>
+            <name>Sukkyun Hong</name>
+            <email>goobghd@gmail.com</email>
+            <organization>Chungbuk National Univ</organization>
+            <organizationUrl>https://github.com/sukkyun2</organizationUrl>
+        </developer>
     </developers>
+
     <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
+        <connection>scm:git:github.com/tracedin/tracein-sdk-java.git</connection>
+        <developerConnection>scm:git:ssh://github.com/tracedin/tracein-sdk-java</developerConnection>
+        <url>https://github.com/tracedin/tracein-sdk-java/tree/main</url>
     </scm>
+
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
         <opentelemetry.version>1.40.0</opentelemetry.version>
+        <gpg.keyname>secret</gpg.keyname>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -89,31 +103,47 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Maven Shade Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>attach-javadocs</id>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
                         </goals>
                         <configuration>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
+                            <keyname>${gpg.keyname}</keyname>
+                            <passphrase>${gpg.keyname}</passphrase>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>publishing</waitUntil>
+                </configuration>
             </plugin>
         </plugins>
     </build>
