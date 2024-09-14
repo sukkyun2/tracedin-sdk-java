@@ -1,4 +1,4 @@
-package io.tracein.example;
+package io.github.tracedin.example;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

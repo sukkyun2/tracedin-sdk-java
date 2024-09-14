@@ -1,4 +1,4 @@
-package io.tracein.core.web;
+package io.github.tracedin.web;
 
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter;
