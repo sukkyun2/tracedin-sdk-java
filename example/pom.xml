@@ -56,10 +56,9 @@
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.tracein</groupId>
-			<artifactId>tracein-sdk</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+			<groupId>io.github.tracedin</groupId>
+			<artifactId>tracedin-sdk</artifactId>
+			<version>0.0.2</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

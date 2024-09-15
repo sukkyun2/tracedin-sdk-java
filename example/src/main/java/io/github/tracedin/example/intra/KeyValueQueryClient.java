@@ -1,4 +1,4 @@
-package io.tracein.example.intra;
+package io.github.tracedin.example.intra;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

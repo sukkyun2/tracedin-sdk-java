@@ -1,6 +1,6 @@
-package io.tracein.config;
+package io.github.tracedin.config;
 
-import io.tracein.core.web.CollectLoggingInterceptor;
+import io.github.tracedin.web.CollectLoggingInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
