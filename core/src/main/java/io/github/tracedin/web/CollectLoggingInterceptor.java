@@ -1,5 +1,7 @@
 package io.github.tracedin.web;
 
+import io.github.tracedin.logging.CollectLoggingAspect;
+import io.github.tracedin.logging.CollectLoggingResult;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
@@ -9,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Stack;
 
 import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.*;
 
@@ -30,11 +34,16 @@ public class CollectLoggingInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         Span span = tracer.spanBuilder(request.getRequestURI()).startSpan();
+
         try (Scope scope = span.makeCurrent()) {
             span.setAttribute(HTTP_METHOD, request.getMethod());
             span.setAttribute(HTTP_URL, request.getRequestURI());
             span.setAttribute(HTTP_STATUS_CODE, response.getStatus());
             span.setAttribute(HTTP_CLIENT_IP, request.getRemoteAddr());
+
+            //TODO Add Span
+            Stack<CollectLoggingResult> methodStack = CollectLoggingAspect.getMethodStack();
+            log.info(String.valueOf(methodStack));
         } finally {
             span.end();
         }
