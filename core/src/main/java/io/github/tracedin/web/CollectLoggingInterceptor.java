@@ -8,31 +8,33 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.*;
 
 @Slf4j
 public class CollectLoggingInterceptor implements HandlerInterceptor {
     private final Tracer tracer;
 
     public CollectLoggingInterceptor() {
-        this(System.getProperty("tracein.tracer.name", "app"));
+        this(System.getenv("TRACER_NAME"));
     }
 
     public CollectLoggingInterceptor(String tracerName) {
-        log.info("initialize open telemetry tracer name :" + tracerName);
+        log.info(String.format("Initializing Tracer name [%s]", tracerName));
 
         OpenTelemetry openTelemetry = OpenTelemetryConfiguration.initOpenTelemetry();
         this.tracer = openTelemetry.getTracer(tracerName);
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         Span span = tracer.spanBuilder(request.getRequestURI()).startSpan();
         try (Scope scope = span.makeCurrent()) {
-            span.setAttribute("REQUEST_METHOD", request.getMethod());
-            span.setAttribute("REQUEST_URI", request.getRequestURI());
-            span.setAttribute("STATUS_CODE", response.getStatus());
-
-            return true;
+            span.setAttribute(HTTP_METHOD, request.getMethod());
+            span.setAttribute(HTTP_URL, request.getRequestURI());
+            span.setAttribute(HTTP_STATUS_CODE, response.getStatus());
+            span.setAttribute(HTTP_CLIENT_IP, request.getRemoteAddr());
         } finally {
             span.end();
         }

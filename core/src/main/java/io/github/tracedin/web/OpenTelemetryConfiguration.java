@@ -8,7 +8,7 @@ import io.opentelemetry.sdk.trace.export.SimpleSpanProcessor;
 import io.opentelemetry.sdk.trace.export.SpanExporter;
 
 public class OpenTelemetryConfiguration {
-    private static final String OTLP_ENDPOINT = "http://localhost:8888/v1/traces";
+    private static final String OTLP_ENDPOINT = System.getenv("OTLP_ENDPOINT");
 
     public static OpenTelemetry initOpenTelemetry() {
         SpanExporter spanExporter = OtlpHttpSpanExporter.builder()
