@@ -26,7 +26,7 @@ jobs:
           distribution: ${{ env.DISTRIBUTION }}
 
       - name: Build with Maven
-        run: mvn clean install -q
+        run: mvn clean install -q -Dgpg.keynames=${{ secrets.GPG_KEYNAME }}
 
   checkstyle:
     runs-on: ubuntu-latest

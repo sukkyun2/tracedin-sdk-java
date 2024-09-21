@@ -42,7 +42,6 @@
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
         <opentelemetry.version>1.40.0</opentelemetry.version>
-        <gpg.keyname>secret</gpg.keyname>
     </properties>
 
     <dependencies>
@@ -119,7 +118,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
+                <version>1.6</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -129,7 +128,7 @@
                         </goals>
                         <configuration>
                             <keyname>${gpg.keyname}</keyname>
-                            <passphrase>${gpg.keyname}</passphrase>
+                            <passphraseServerId>${gpg.keyname}</passphraseServerId>
                         </configuration>
                     </execution>
                 </executions>
