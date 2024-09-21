@@ -6,6 +6,7 @@ on:
 
 env:
   JAVA_VERSION: '17'
+  DISTRIBUTION: 'temurin'
 
 defaults:
   run:
@@ -22,6 +23,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.DISTRIBUTION }}
 
       - name: Build with Maven
         run: mvn clean install
@@ -30,7 +32,6 @@ jobs:
         run: mvn test
 
   checkstyle:
-    name: checkstyle
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,7 +44,6 @@ jobs:
 
   codeql:
     runs-on: ubuntu-latest
-    name: Analyze code with CodeQL
     steps:
       - name: Check out code
         uses: actions/checkout@v4
